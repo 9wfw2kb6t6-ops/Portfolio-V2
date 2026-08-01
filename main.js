@@ -1,164 +1,386 @@
-/* =====================================
-   Portfolio V2
-   Main JavaScript
-===================================== */
+/* ======================================
+   Portfolio V4
+   Author: Nariman Alizadeh
+====================================== */
 
-// ==========================
-// Mobile Menu
-// ==========================
+"use strict";
 
-const menuBtn = document.querySelector(".menu-btn");
-const navLinks = document.querySelector(".nav-links");
-
-menuBtn.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-});
-
-document.querySelectorAll(".nav-links a").forEach(link => {
-
-    link.addEventListener("click", () => {
-        navLinks.classList.remove("active");
-    });
-
-});
-
-// ==========================
-// Header Shadow
-// ==========================
+// ============================
+// Select Elements
+// ============================
 
 const header = document.querySelector("header");
 
-window.addEventListener("scroll", () => {
+const menuBtn = document.querySelector(".menu-btn");
 
-    if (window.scrollY > 40) {
+const navLinks = document.querySelector(".nav-links");
 
-        header.style.boxShadow =
-            "0 10px 30px rgba(0,0,0,.35)";
-
-    } else {
-
-        header.style.boxShadow = "none";
-
-    }
-
-});
-
-// ==========================
-// Active Menu
-// ==========================
-
-const sections = document.querySelectorAll("section");
 const navItems = document.querySelectorAll(".nav-links a");
 
-window.addEventListener("scroll", () => {
+const sections = document.querySelectorAll("section");
 
-    let current = "";
+const heroImage = document.querySelector(".hero-image img");
 
-    sections.forEach(section => {
+// ============================
+// Mobile Menu
+// ============================
 
-        const top = section.offsetTop - 120;
+if(menuBtn){
 
-        const height = section.clientHeight;
+menuBtn.addEventListener("click",()=>{
 
-        if (pageYOffset >= top) {
+navLinks.classList.toggle("active");
 
-            current = section.getAttribute("id");
-
-        }
-
-    });
-
-    navItems.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (link.getAttribute("href") == "#" + current) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-
-// ==========================
-// Scroll Animation
-// ==========================
-
-const observer = new IntersectionObserver((entries) => {
-
-    entries.forEach(entry => {
-
-        if (entry.isIntersecting) {
-
-            entry.target.classList.add("show");
-
-        }
-
-    });
-
-}, {
-    threshold: .15
-});
-
-document.querySelectorAll(
-".skill-card,.service-card,.project-card,.contact-box,.about-text"
-).forEach(el => {
-
-    el.classList.add("hidden");
-
-    observer.observe(el);
-
-});
-
-// ==========================
-// Contact Form
-// ==========================
-
-const form = document.querySelector(".contact-form");
-
-if(form){
-
-form.addEventListener("submit",function(e){
-
-e.preventDefault();
-
-alert("Thank you! Your message has been received.");
-
-form.reset();
+menuBtn.classList.toggle("open");
 
 });
 
 }
 
-// ==========================
+navItems.forEach(item=>{
+
+item.addEventListener("click",()=>{
+
+navLinks.classList.remove("active");
+
+menuBtn.classList.remove("open");
+
+});
+
+});
+
+// ============================
+// Sticky Header
+// ============================
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>70){
+
+header.classList.add("sticky");
+
+}else{
+
+header.classList.remove("sticky");
+
+}
+
+});
+// ============================
+// Active Navigation
+// ============================
+
+window.addEventListener("scroll",()=>{
+
+let current="";
+
+sections.forEach(section=>{
+
+const top=section.offsetTop-150;
+const height=section.offsetHeight;
+
+if(window.scrollY>=top &&
+window.scrollY<top+height){
+
+current=section.id;
+
+}
+
+});
+
+navItems.forEach(link=>{
+
+link.classList.remove("active");
+
+if(link.getAttribute("href")==="#"+current){
+
+link.classList.add("active");
+
+}
+
+});
+
+});
+
+// ============================
+// Smooth Scroll
+// ============================
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+
+anchor.addEventListener("click",function(e){
+
+e.preventDefault();
+
+const target=document.querySelector(this.getAttribute("href"));
+
+if(target){
+
+target.scrollIntoView({
+
+behavior:"smooth",
+
+block:"start"
+
+});
+
+}
+
+});
+
+});
+
+// ============================
+// Scroll Reveal Animation
+// ============================
+
+const revealItems=document.querySelectorAll(
+
+".hero-text,.hero-image,.about-text,.info-box,.skill-card,.service-card,.project-card,.contact-box,.contact-form"
+
+);
+
+const revealObserver=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+},{
+
+threshold:0.15
+
+});
+
+revealItems.forEach(item=>{
+
+item.classList.add("hidden");
+
+revealObserver.observe(item);
+
+});
+// ============================
+// Typing Effect
+// ============================
+
+const typingElement=document.querySelector(".hero h3");
+
+const words=[
+"Frontend Developer",
+"UI / UX Designer",
+"Freelance Web Developer"
+];
+
+let wordIndex=0;
+let charIndex=0;
+let isDeleting=false;
+
+function typingEffect(){
+
+if(!typingElement) return;
+
+const currentWord=words[wordIndex];
+
+typingElement.textContent=currentWord.substring(0,charIndex);
+
+if(isDeleting){
+
+charIndex--;
+
+}else{
+
+charIndex++;
+
+}
+
+if(!isDeleting && charIndex===currentWord.length){
+
+isDeleting=true;
+
+setTimeout(typingEffect,1500);
+
+return;
+
+}
+
+if(isDeleting && charIndex===0){
+
+isDeleting=false;
+
+wordIndex=(wordIndex+1)%words.length;
+
+}
+
+setTimeout(typingEffect,isDeleting?60:110);
+
+}
+
+typingEffect();
+
+// ============================
+// Animated Counter
+// ============================
+
+const counters=document.querySelectorAll(".stat-box h2");
+
+const counterObserver=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+const counter=entry.target;
+
+const target=parseInt(counter.textContent);
+
+let count=0;
+
+const timer=setInterval(()=>{
+
+count++;
+
+counter.textContent=count+"+";
+
+if(count>=target){
+
+clearInterval(timer);
+
+counter.textContent=target+"+";
+
+}
+
+},25);
+
+counterObserver.unobserve(counter);
+
+}
+
+});
+
+});
+
+counters.forEach(counter=>{
+
+counterObserver.observe(counter);
+
+});
+
+// ============================
+// Hero Image Parallax
+// ============================
+
+window.addEventListener("scroll",()=>{
+
+if(heroImage){
+
+heroImage.style.transform=
+
+`translateY(${window.scrollY*0.08}px)`;
+
+}
+
+});
+
+// ============================
+// Floating Hero Image
+// ============================
+
+if(heroImage){
+
+setInterval(()=>{
+
+heroImage.animate([
+
+{transform:"translateY(0px)"},
+
+{transform:"translateY(-12px)"},
+
+{transform:"translateY(0px)"}
+
+],{
+
+duration:3000,
+
+iterations:1
+
+});
+
+},3000);
+
+}
+// ============================
+// Contact Form
+// ============================
+
+const contactForm=document.querySelector(".contact-form");
+
+if(contactForm){
+
+contactForm.addEventListener("submit",(e)=>{
+
+e.preventDefault();
+
+const btn=contactForm.querySelector("button");
+
+const oldText=btn.innerHTML;
+
+btn.disabled=true;
+
+btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+setTimeout(()=>{
+
+btn.innerHTML='<i class="fas fa-check"></i> Message Sent';
+
+setTimeout(()=>{
+
+btn.innerHTML=oldText;
+
+btn.disabled=false;
+
+contactForm.reset();
+
+},2000);
+
+},1500);
+
+});
+
+}
+
+// ============================
 // Back To Top Button
-// ==========================
+// ============================
 
-const topBtn = document.createElement("button");
+const topButton=document.createElement("button");
 
-topBtn.innerHTML = "↑";
+topButton.className="top-btn";
 
-topBtn.className = "top-btn";
+topButton.innerHTML='<i class="fas fa-arrow-up"></i>';
 
-document.body.appendChild(topBtn);
+document.body.appendChild(topButton);
 
 window.addEventListener("scroll",()=>{
 
 if(window.scrollY>500){
 
-topBtn.classList.add("show-top");
+topButton.classList.add("show-top");
 
 }else{
 
-topBtn.classList.remove("show-top");
+topButton.classList.remove("show-top");
 
 }
 
 });
 
-topBtn.onclick=()=>{
+topButton.addEventListener("click",()=>{
 
 window.scrollTo({
 
@@ -168,46 +390,82 @@ behavior:"smooth"
 
 });
 
+});
+
+// ============================
+// Button Hover Effect
+// ============================
+
+document.querySelectorAll(".btn,.outline-btn").forEach(button=>{
+
+button.addEventListener("mouseenter",()=>{
+
+button.style.transform="translateY(-5px) scale(1.03)";
+
+});
+
+button.addEventListener("mouseleave",()=>{
+
+button.style.transform="translateY(0) scale(1)";
+
+});
+
+});
+
+// ============================
+// Image Fade
+// ============================
+
+document.querySelectorAll("img").forEach(img=>{
+
+img.style.opacity="0";
+
+img.style.transition="opacity .6s ease";
+
+img.onload=()=>{
+
+img.style.opacity="1";
+
 };
 
-// ==========================
-// Typing Effect
-// ==========================
+});
 
-const text =
-"Frontend Developer";
+// ============================
+// Preloader
+// ============================
 
-const typingElement =
-document.querySelector(".hero h3");
+window.addEventListener("load",()=>{
 
-if(typingElement){
+document.body.classList.add("loaded");
 
-let index=0;
+});
 
-typingElement.innerHTML="";
-
-function typing(){
-
-if(index<text.length){
-
-typingElement.innerHTML+=text.charAt(index);
-
-index++;
-
-setTimeout(typing,90);
-
-}
-
-}
-
-typing();
-
-}
-
-// ==========================
+// ============================
 // Console Message
-// ==========================
+// ============================
+
+console.clear();
 
 console.log(
-"Portfolio V2 Loaded Successfully"
+
+"%cNariman Portfolio V4",
+
+"color:#f8b400;font-size:22px;font-weight:bold;"
+
+);
+
+console.log(
+
+"%cDeveloped by Nariman Alizadeh",
+
+"color:white;font-size:14px;"
+
+);
+
+console.log(
+
+"%chttps://github.com/9wfw2kb6t6-ops",
+
+"color:#00bfff;font-size:14px;"
+
 );
