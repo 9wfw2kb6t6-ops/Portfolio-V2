@@ -1267,3 +1267,22 @@ opacity:0;
 visibility:hidden;
 
 }
+/*==========================
+
+INTRO
+
+===========================*/
+
+window.addEventListener("load",()=>{
+
+setTimeout(()=>{
+
+document
+
+.getElementById("intro")
+
+.classList.add("intro-hide");
+
+},2600);
+
+});
