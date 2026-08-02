@@ -220,3 +220,36 @@ card.style.transition=".35s";
 });
 
 });
+/* =======================================
+About Animation
+======================================= */
+
+const infoBoxes=document.querySelectorAll(".info-box");
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.style.opacity="1";
+
+entry.target.style.transform="translateY(0)";
+
+}
+
+});
+
+});
+
+infoBoxes.forEach(box=>{
+
+box.style.opacity="0";
+
+box.style.transform="translateY(50px)";
+
+box.style.transition=".7s";
+
+observer.observe(box);
+
+});
