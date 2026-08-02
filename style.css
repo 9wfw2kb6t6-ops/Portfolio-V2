@@ -894,3 +894,98 @@ transform:translateY(-12px);
 }
 
 }
+/* =======================================
+TECH STACK
+======================================= */
+
+.tech-stack{
+
+padding:110px 0;
+
+}
+
+.section-mini-title{
+
+text-align:center;
+
+font-size:18px;
+
+letter-spacing:2px;
+
+text-transform:uppercase;
+
+color:#f8b400;
+
+margin-bottom:50px;
+
+font-weight:600;
+
+}
+
+.tech-grid{
+
+display:grid;
+
+grid-template-columns:repeat(4,1fr);
+
+gap:30px;
+
+}
+
+.tech-card{
+
+padding:35px;
+
+background:rgba(255,255,255,.05);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:28px;
+
+backdrop-filter:blur(18px);
+
+text-align:center;
+
+transition:.35s;
+
+cursor:pointer;
+
+}
+
+.tech-card:hover{
+
+transform:translateY(-12px);
+
+border-color:#f8b400;
+
+box-shadow:0 20px 45px rgba(248,180,0,.18);
+
+}
+
+.tech-card i{
+
+font-size:55px;
+
+margin-bottom:20px;
+
+color:#f8b400;
+
+transition:.35s;
+
+}
+
+.tech-card:hover i{
+
+transform:scale(1.2) rotate(-8deg);
+
+}
+
+.tech-card span{
+
+display:block;
+
+font-size:18px;
+
+font-weight:600;
+
+}
