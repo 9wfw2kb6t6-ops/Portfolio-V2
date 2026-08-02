@@ -74,3 +74,106 @@ menu.addEventListener("click",()=>{
 nav.classList.toggle("active");
 
 });
+/* =======================================
+Typing Effect
+======================================= */
+
+const typing=document.querySelector(".typing-text");
+
+const texts=[
+
+"Frontend Developer",
+
+"UI / UX Designer",
+
+"Creative Coder"
+
+];
+
+let t=0;
+
+let c=0;
+
+let removing=false;
+
+function typeEffect(){
+
+if(!typing) return;
+
+let word=texts[t];
+
+if(!removing){
+
+typing.textContent=word.substring(0,c++);
+
+if(c>word.length){
+
+removing=true;
+
+setTimeout(typeEffect,1600);
+
+return;
+
+}
+
+}else{
+
+typing.textContent=word.substring(0,c--);
+
+if(c<0){
+
+removing=false;
+
+t++;
+
+if(t>=texts.length){
+
+t=0;
+
+}
+
+}
+
+}
+
+setTimeout(typeEffect,removing?45:90);
+
+}
+
+typeEffect();
+
+/* =======================================
+Counter
+======================================= */
+
+document.querySelectorAll(".stat-card h3").forEach(counter=>{
+
+let target=+counter.dataset.count;
+
+let value=0;
+
+let speed=target/60;
+
+function update(){
+
+value+=speed;
+
+if(value<target){
+
+counter.innerHTML=Math.ceil(value);
+
+requestAnimationFrame(update);
+
+}else{
+
+counter.innerHTML=
+
+target==100 ? "100%" : target+"+";
+
+}
+
+}
+
+update();
+
+});
