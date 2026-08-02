@@ -45,3 +45,32 @@ document.querySelector(".progress-bar-top").style.width=
 progress+"%";
 
 });
+// Sticky Header
+
+const header=document.querySelector("header");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>40){
+
+header.classList.add("active");
+
+}else{
+
+header.classList.remove("active");
+
+}
+
+});
+
+// Mobile Menu
+
+const menu=document.querySelector(".menu-btn");
+
+const nav=document.querySelector(".nav-links");
+
+menu.addEventListener("click",()=>{
+
+nav.classList.toggle("active");
+
+});
