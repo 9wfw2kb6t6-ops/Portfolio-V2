@@ -253,3 +253,14 @@ box.style.transition=".7s";
 observer.observe(box);
 
 });
+// Hero Gallery Animation
+
+const gallery = document.querySelectorAll(".gallery-item");
+
+gallery.forEach((card,index)=>{
+
+card.style.animation=
+
+`floating ${8+index}s ease-in-out infinite`;
+
+});
