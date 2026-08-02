@@ -177,3 +177,31 @@ target==100 ? "100%" : target+"+";
 update();
 
 });
+/* =======================================
+Hero Parallax
+======================================= */
+
+const heroImage = document.querySelector(".hero-image-card");
+
+document.addEventListener("mousemove",(e)=>{
+
+if(!heroImage) return;
+
+const x = (window.innerWidth/2 - e.clientX)/35;
+
+const y = (window.innerHeight/2 - e.clientY)/35;
+
+heroImage.style.transform =
+`rotateY(${x}deg) rotateX(${-y}deg)`;
+
+});
+
+document.addEventListener("mouseleave",()=>{
+
+if(heroImage){
+
+heroImage.style.transform="rotateX(0) rotateY(0)";
+
+}
+
+});
