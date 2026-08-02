@@ -1,29 +1,14 @@
-/* ======================================
-   Portfolio V4
-   Author: Nariman Alizadeh
-====================================== */
+/* ===========================================
+   Portfolio V3 Premium
+   Main JavaScript
+=========================================== */
 
-"use strict";
-
-// ============================
-// Select Elements
-// ============================
-
-const header = document.querySelector("header");
+// =========================
+// Mobile Menu
+// =========================
 
 const menuBtn = document.querySelector(".menu-btn");
-
 const navLinks = document.querySelector(".nav-links");
-
-const navItems = document.querySelectorAll(".nav-links a");
-
-const sections = document.querySelectorAll("section");
-
-const heroImage = document.querySelector(".hero-image img");
-
-// ============================
-// Mobile Menu
-// ============================
 
 if(menuBtn){
 
@@ -31,44 +16,48 @@ menuBtn.addEventListener("click",()=>{
 
 navLinks.classList.toggle("active");
 
-menuBtn.classList.toggle("open");
-
 });
 
 }
 
-navItems.forEach(item=>{
+document.querySelectorAll(".nav-links a").forEach(link=>{
 
-item.addEventListener("click",()=>{
+link.addEventListener("click",()=>{
 
 navLinks.classList.remove("active");
 
-menuBtn.classList.remove("open");
-
 });
 
 });
 
-// ============================
-// Sticky Header
-// ============================
+// =========================
+// Header Effect
+// =========================
+
+const header=document.querySelector("header");
 
 window.addEventListener("scroll",()=>{
 
-if(window.scrollY>70){
+if(window.scrollY>50){
 
-header.classList.add("sticky");
+header.style.background="rgba(8,8,8,.90)";
+header.style.boxShadow="0 10px 35px rgba(0,0,0,.35)";
 
 }else{
 
-header.classList.remove("sticky");
+header.style.background="rgba(10,10,10,.72)";
+header.style.boxShadow="none";
 
 }
 
 });
-// ============================
+
+// =========================
 // Active Navigation
-// ============================
+// =========================
+
+const sections=document.querySelectorAll("section");
+const navItems=document.querySelectorAll(".nav-links a");
 
 window.addEventListener("scroll",()=>{
 
@@ -77,12 +66,12 @@ let current="";
 sections.forEach(section=>{
 
 const top=section.offsetTop-150;
+
 const height=section.offsetHeight;
 
-if(window.scrollY>=top &&
-window.scrollY<top+height){
+if(pageYOffset>=top){
 
-current=section.id;
+current=section.getAttribute("id");
 
 }
 
@@ -102,45 +91,11 @@ link.classList.add("active");
 
 });
 
-// ============================
-// Smooth Scroll
-// ============================
+// =========================
+// Scroll Reveal
+// =========================
 
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
-
-anchor.addEventListener("click",function(e){
-
-e.preventDefault();
-
-const target=document.querySelector(this.getAttribute("href"));
-
-if(target){
-
-target.scrollIntoView({
-
-behavior:"smooth",
-
-block:"start"
-
-});
-
-}
-
-});
-
-});
-
-// ============================
-// Scroll Reveal Animation
-// ============================
-
-const revealItems=document.querySelectorAll(
-
-".hero-text,.hero-image,.about-text,.info-box,.skill-card,.service-card,.project-card,.contact-box,.contact-form"
-
-);
-
-const revealObserver=new IntersectionObserver((entries)=>{
+const observer=new IntersectionObserver(entries=>{
 
 entries.forEach(entry=>{
 
@@ -153,234 +108,163 @@ entry.target.classList.add("show");
 });
 
 },{
-
-threshold:0.15
-
+threshold:.15
 });
 
-revealItems.forEach(item=>{
+document.querySelectorAll(
 
-item.classList.add("hidden");
+".glass-card,.skill-card,.service-card,.project-card,.testimonial-card,.faq-item,.contact-card"
 
-revealObserver.observe(item);
+).forEach(el=>{
+
+el.classList.add("hidden");
+
+observer.observe(el);
 
 });
-// ============================
+// ===========================================
 // Typing Effect
-// ============================
+// ===========================================
 
-const typingElement=document.querySelector(".hero h3");
+const typingTarget = document.querySelector(".hero h2");
 
-const words=[
+if (typingTarget) {
+
+const words = [
 "Frontend Developer",
-"UI / UX Designer",
-"Freelance Web Developer"
+"UI Designer",
+"Web Designer",
+"Freelancer"
 ];
 
-let wordIndex=0;
-let charIndex=0;
-let isDeleting=false;
+let wordIndex = 0;
+let charIndex = 0;
+let deleting = false;
 
-function typingEffect(){
+function typeEffect(){
 
-if(!typingElement) return;
+const current = words[wordIndex];
 
-const currentWord=words[wordIndex];
+if(!deleting){
 
-typingElement.textContent=currentWord.substring(0,charIndex);
+typingTarget.textContent =
+current.substring(0,charIndex++);
 
-if(isDeleting){
+if(charIndex > current.length){
 
-charIndex--;
+deleting = true;
 
-}else{
-
-charIndex++;
-
-}
-
-if(!isDeleting && charIndex===currentWord.length){
-
-isDeleting=true;
-
-setTimeout(typingEffect,1500);
+setTimeout(typeEffect,1500);
 
 return;
 
 }
 
-if(isDeleting && charIndex===0){
+}else{
 
-isDeleting=false;
+typingTarget.textContent =
+current.substring(0,charIndex--);
 
-wordIndex=(wordIndex+1)%words.length;
+if(charIndex < 0){
 
-}
+deleting = false;
 
-setTimeout(typingEffect,isDeleting?60:110);
+wordIndex++;
 
-}
+if(wordIndex >= words.length){
 
-typingEffect();
-
-// ============================
-// Animated Counter
-// ============================
-
-const counters=document.querySelectorAll(".stat-box h2");
-
-const counterObserver=new IntersectionObserver((entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-const counter=entry.target;
-
-const target=parseInt(counter.textContent);
-
-let count=0;
-
-const timer=setInterval(()=>{
-
-count++;
-
-counter.textContent=count+"+";
-
-if(count>=target){
-
-clearInterval(timer);
-
-counter.textContent=target+"+";
+wordIndex = 0;
 
 }
 
-},25);
-
-counterObserver.unobserve(counter);
+}
 
 }
 
-});
+setTimeout(typeEffect,deleting ? 45 : 90);
 
-});
+}
+
+typeEffect();
+
+}
+
+// ===========================================
+// Animated Counters
+// ===========================================
+
+const counters =
+document.querySelectorAll(".stat-box h3");
+
+const speed = 60;
 
 counters.forEach(counter=>{
 
-counterObserver.observe(counter);
+const updateCounter=()=>{
 
-});
+const target =
+parseInt(counter.innerText);
 
-// ============================
-// Hero Image Parallax
-// ============================
+const count =
++counter.getAttribute("data-count") || target;
 
-window.addEventListener("scroll",()=>{
+const increment =
+Math.ceil(count/speed);
 
-if(heroImage){
+if(target<count){
 
-heroImage.style.transform=
+counter.innerText =
+target+increment;
 
-`translateY(${window.scrollY*0.08}px)`;
+requestAnimationFrame(updateCounter);
 
-}
+}else{
 
-});
-
-// ============================
-// Floating Hero Image
-// ============================
-
-if(heroImage){
-
-setInterval(()=>{
-
-heroImage.animate([
-
-{transform:"translateY(0px)"},
-
-{transform:"translateY(-12px)"},
-
-{transform:"translateY(0px)"}
-
-],{
-
-duration:3000,
-
-iterations:1
-
-});
-
-},3000);
-
-}
-// ============================
-// Contact Form
-// ============================
-
-const contactForm=document.querySelector(".contact-form");
-
-if(contactForm){
-
-contactForm.addEventListener("submit",(e)=>{
-
-e.preventDefault();
-
-const btn=contactForm.querySelector("button");
-
-const oldText=btn.innerHTML;
-
-btn.disabled=true;
-
-btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-setTimeout(()=>{
-
-btn.innerHTML='<i class="fas fa-check"></i> Message Sent';
-
-setTimeout(()=>{
-
-btn.innerHTML=oldText;
-
-btn.disabled=false;
-
-contactForm.reset();
-
-},2000);
-
-},1500);
-
-});
+counter.innerText =
+count+"+";
 
 }
 
-// ============================
-// Back To Top Button
-// ============================
+};
 
-const topButton=document.createElement("button");
+counter.innerText="0";
 
-topButton.className="top-btn";
+counter.setAttribute(
+"data-count",
+counter.innerText.replace("+","")
+);
 
-topButton.innerHTML='<i class="fas fa-arrow-up"></i>';
+});
 
-document.body.appendChild(topButton);
+// ===========================================
+// Back To Top
+// ===========================================
+
+const topBtn =
+document.createElement("button");
+
+topBtn.innerHTML =
+'<i class="fas fa-arrow-up"></i>';
+
+topBtn.className="top-btn";
+
+document.body.appendChild(topBtn);
 
 window.addEventListener("scroll",()=>{
 
 if(window.scrollY>500){
 
-topButton.classList.add("show-top");
+topBtn.classList.add("show-top");
 
 }else{
 
-topButton.classList.remove("show-top");
+topBtn.classList.remove("show-top");
 
 }
 
 });
 
-topButton.addEventListener("click",()=>{
+topBtn.addEventListener("click",()=>{
 
 window.scrollTo({
 
@@ -391,48 +275,9 @@ behavior:"smooth"
 });
 
 });
-
-// ============================
-// Button Hover Effect
-// ============================
-
-document.querySelectorAll(".btn,.outline-btn").forEach(button=>{
-
-button.addEventListener("mouseenter",()=>{
-
-button.style.transform="translateY(-5px) scale(1.03)";
-
-});
-
-button.addEventListener("mouseleave",()=>{
-
-button.style.transform="translateY(0) scale(1)";
-
-});
-
-});
-
-// ============================
-// Image Fade
-// ============================
-
-document.querySelectorAll("img").forEach(img=>{
-
-img.style.opacity="0";
-
-img.style.transition="opacity .6s ease";
-
-img.onload=()=>{
-
-img.style.opacity="1";
-
-};
-
-});
-
-// ============================
-// Preloader
-// ============================
+// ===========================================
+// Loader
+// ===========================================
 
 window.addEventListener("load",()=>{
 
@@ -440,32 +285,130 @@ document.body.classList.add("loaded");
 
 });
 
-// ============================
-// Console Message
-// ============================
+// ===========================================
+// Parallax Background
+// ===========================================
 
-console.clear();
+const blur1=document.querySelector(".blur-1");
+const blur2=document.querySelector(".blur-2");
 
-console.log(
+window.addEventListener("mousemove",(e)=>{
 
-"%cNariman Portfolio V4",
+const x=e.clientX/window.innerWidth;
+const y=e.clientY/window.innerHeight;
 
-"color:#f8b400;font-size:22px;font-weight:bold;"
+if(blur1){
 
-);
+blur1.style.transform=
+`translate(${x*40}px,${y*40}px)`;
 
-console.log(
+}
 
-"%cDeveloped by Nariman Alizadeh",
+if(blur2){
 
-"color:white;font-size:14px;"
+blur2.style.transform=
+`translate(${-x*40}px,${-y*40}px)`;
 
-);
+}
 
-console.log(
+});
 
-"%chttps://github.com/9wfw2kb6t6-ops",
+// ===========================================
+// 3D Hover Cards
+// ===========================================
 
-"color:#00bfff;font-size:14px;"
+document.querySelectorAll(
 
-);
+".project-card,.service-card,.glass-card,.skill-card"
+
+).forEach(card=>{
+
+card.addEventListener("mousemove",(e)=>{
+
+const rect=card.getBoundingClientRect();
+
+const x=e.clientX-rect.left;
+
+const y=e.clientY-rect.top;
+
+const rotateX=(y-rect.height/2)/18;
+
+const rotateY=(rect.width/2-x)/18;
+
+card.style.transform=
+
+`perspective(1000px)
+rotateX(${rotateX}deg)
+rotateY(${rotateY}deg)
+translateY(-8px)`;
+
+});
+
+card.addEventListener("mouseleave",()=>{
+
+card.style.transform=
+
+"perspective(1000px) rotateX(0) rotateY(0)";
+
+});
+
+});
+
+// ===========================================
+// Floating Image
+// ===========================================
+
+const profile=document.querySelector(".profile-card");
+
+if(profile){
+
+let angle=0;
+
+setInterval(()=>{
+
+angle+=0.01;
+
+profile.style.transform=
+
+`translateY(${Math.sin(angle)*10}px)`;
+
+},20);
+
+}
+
+// ===========================================
+// Contact Form
+// ===========================================
+
+const form=document.querySelector("form");
+
+if(form){
+
+form.addEventListener("submit",(e)=>{
+
+e.preventDefault();
+
+const btn=form.querySelector("button");
+
+btn.innerHTML="Sending...";
+
+setTimeout(()=>{
+
+btn.innerHTML="Message Sent ✓";
+
+btn.style.background="#16c784";
+
+form.reset();
+
+},1800);
+
+});
+
+}
+
+// ===========================================
+// Console
+// ===========================================
+
+console.log("%cPortfolio V3 Premium Loaded",
+"color:#f8b400;font-size:20px;font-weight:bold;");
