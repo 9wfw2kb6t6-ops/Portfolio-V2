@@ -1911,3 +1911,298 @@ padding:90px 0;
 }
 
 }
+/* ==========================================
+ANIMATION CLASSES
+========================================== */
+
+.hidden{
+
+opacity:0;
+
+transform:translateY(60px);
+
+transition:all .8s ease;
+
+}
+
+.show{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+/* ==========================================
+MOBILE MENU
+========================================== */
+
+@media(max-width:768px){
+
+.nav-links{
+
+position:fixed;
+
+top:85px;
+
+left:-100%;
+
+width:100%;
+
+padding:35px;
+
+background:rgba(10,10,10,.97);
+
+backdrop-filter:blur(20px);
+
+flex-direction:column;
+
+gap:25px;
+
+transition:.35s;
+
+}
+
+.nav-links.active{
+
+left:0;
+
+}
+
+}
+
+/* ==========================================
+BACK TO TOP
+========================================== */
+
+.top-button{
+
+position:fixed;
+
+right:30px;
+
+bottom:30px;
+
+width:58px;
+
+height:58px;
+
+border:none;
+
+border-radius:50%;
+
+background:var(--primary);
+
+color:#111;
+
+font-size:22px;
+
+cursor:pointer;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+box-shadow:0 15px 35px rgba(248,180,0,.35);
+
+opacity:0;
+
+visibility:hidden;
+
+transition:.35s;
+
+z-index:999;
+
+}
+
+.show-top{
+
+opacity:1;
+
+visibility:visible;
+
+}
+
+.top-button:hover{
+
+transform:translateY(-8px) scale(1.05);
+
+}
+
+/* ==========================================
+BUTTON RIPPLE
+========================================== */
+
+.btn{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.ripple{
+
+position:absolute;
+
+border-radius:50%;
+
+transform:scale(0);
+
+background:rgba(255,255,255,.45);
+
+animation:ripple .6s linear;
+
+pointer-events:none;
+
+}
+
+@keyframes ripple{
+
+to{
+
+transform:scale(4);
+
+opacity:0;
+
+}
+
+}
+
+/* ==========================================
+CURSOR GLOW
+========================================== */
+
+.cursor-glow{
+
+position:fixed;
+
+width:22px;
+
+height:22px;
+
+border-radius:50%;
+
+background:rgba(248,180,0,.45);
+
+filter:blur(8px);
+
+pointer-events:none;
+
+transform:translate(-50%,-50%);
+
+transition:left .08s linear,top .08s linear;
+
+z-index:99999;
+
+}
+
+/* ==========================================
+LOADER
+========================================== */
+
+body{
+
+opacity:0;
+
+transition:opacity .6s ease;
+
+}
+
+body.loaded{
+
+opacity:1;
+
+}
+
+/* ==========================================
+ACTIVE MENU
+========================================== */
+
+.nav-links a.active{
+
+color:var(--primary);
+
+}
+
+.nav-links a.active::after{
+
+width:100%;
+
+}
+
+/* ==========================================
+INPUT PLACEHOLDER
+========================================== */
+
+input::placeholder,
+textarea::placeholder{
+
+color:#8d8d8d;
+
+}
+
+/* ==========================================
+IMAGE EFFECT
+========================================== */
+
+.project-image img,
+.about-left img,
+.profile-card img{
+
+transition:.5s;
+
+}
+
+.project-card:hover img,
+.about-left:hover img{
+
+transform:scale(1.06);
+
+}
+
+/* ==========================================
+SMOOTH HOVER
+========================================== */
+
+.project-card,
+.skill-card,
+.service-card,
+.why-card,
+.info-card,
+.testimonial-card{
+
+will-change:transform;
+
+}
+
+/* ==========================================
+SELECTION
+========================================== */
+
+::selection{
+
+background:var(--primary);
+
+color:#111;
+
+}
+
+/* ==========================================
+FOCUS
+========================================== */
+
+button,
+input,
+textarea,
+a{
+
+outline:none;
+
+}
+
+/* ==========================================
+END
+========================================== */
