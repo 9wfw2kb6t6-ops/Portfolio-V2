@@ -205,3 +205,18 @@ heroImage.style.transform="rotateX(0) rotateY(0)";
 }
 
 });
+/* =======================================
+Tech Cards Animation
+======================================= */
+
+const techCards=document.querySelectorAll(".tech-card");
+
+techCards.forEach(card=>{
+
+card.addEventListener("mouseenter",()=>{
+
+card.style.transition=".35s";
+
+});
+
+});
